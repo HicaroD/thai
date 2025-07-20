@@ -129,7 +129,7 @@
       class="fixed inset-0 z-50 flex items-center justify-center {currentColor.bg}"
     >
       <div class="text-center">
-        <div class="text-8xl font-bold {currentColor.text} mb-8">
+        <div class="text-6xl font-bold {currentColor.text} mb-8">
           {currentColor.name.toUpperCase()}
         </div>
         <div class="text-4xl font-mono {currentColor.text} mb-4">
@@ -214,7 +214,6 @@
           </div>
         </div>
 
-        <!-- Start Button -->
         <Button
           onclick={startTraining}
           disabled={selectedColors.length === 0}
@@ -232,7 +231,6 @@
       </CardContent>
     </Card>
 
-    <!-- Preview -->
     <Card class="bg-gray-900 border-gray-700">
       <CardHeader>
         <CardTitle class="text-white">Preview das Cores</CardTitle>
@@ -249,7 +247,6 @@
     </Card>
   {/if}
 
-  <!-- Status when paused -->
   {#if isRunning && !currentColor}
     <Card class="bg-gray-900 border-gray-700">
       <CardContent class="p-8 text-center">
