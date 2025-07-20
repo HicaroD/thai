@@ -119,6 +119,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Treino de cores</title>
+</svelte:head>
+
 <div class="space-y-6">
   {#if isRunning && currentColor}
     <div

@@ -9,6 +9,10 @@
   import { Input } from "$lib/features/shared/components/_shadcn/ui/input";
   import { Label } from "$lib/features/shared/components/_shadcn/ui/label";
   import { Play, Pause, Square, Plus, Trash2 } from "@lucide/svelte";
+  import BoxingBellStart from "$lib/features/timer-sequence/static/boxing-bell-start.mp3";
+  import BoxingBellEnd from "$lib/features/timer-sequence/static/boxing-bell-end.mp3";
+
+  const AUDIO_VOLUME = 0.2;
 
   type Timer = {
     name: string;
@@ -21,6 +25,18 @@
     { name: "Round 1", duration: 180, interval: 60 },
     { name: "Round 2", duration: 180, interval: 60 },
   ]);
+
+  function playStartBell() {
+    const audioPlayer = new Audio(BoxingBellStart);
+    audioPlayer.volume = AUDIO_VOLUME;
+    audioPlayer.play().catch(console.error);
+  }
+
+  function playEndBell() {
+    const audioPlayer = new Audio(BoxingBellEnd);
+    audioPlayer.volume = AUDIO_VOLUME;
+    audioPlayer.play().catch(console.error);
+  }
 
   let currentTimerIndex = $state(0);
   let timeLeft = $state(0);
@@ -44,6 +60,8 @@
 
   function startTimer() {
     if (!isRunning && timers.length > 0) {
+      playStartBell();
+
       isRunning = true;
       if (timeLeft === 0) {
         timeLeft = timers[currentTimerIndex].duration;
@@ -53,6 +71,7 @@
         if (isInterval) {
           intervalTimeLeft--;
           if (intervalTimeLeft <= 0) {
+            playEndBell();
             isInterval = false;
             currentTimerIndex++;
             if (currentTimerIndex >= timers.length) {
@@ -64,6 +83,8 @@
         } else {
           timeLeft--;
           if (timeLeft <= 0) {
+            playEndBell();
+
             if (currentTimerIndex < timers.length - 1) {
               isInterval = true;
               intervalTimeLeft = timers[currentTimerIndex].interval;
@@ -102,6 +123,10 @@
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   }
 </script>
+
+<svelte:head>
+  <title>Timers Sequenciais</title>
+</svelte:head>
 
 <div class="space-y-6">
   <Card class="bg-gray-900 border-gray-700">
@@ -200,7 +225,9 @@
 
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <Label for="duration" class="text-white pb-4">Duração (segundos)</Label>
+          <Label for="duration" class="text-white pb-4"
+            >Duração (segundos)</Label
+          >
           <Input
             id="duration"
             type="number"
@@ -210,7 +237,9 @@
           />
         </div>
         <div>
-          <Label for="interval" class="text-white pb-4">Intervalo (segundos)</Label>
+          <Label for="interval" class="text-white pb-4"
+            >Intervalo (segundos)</Label
+          >
           <Input
             id="interval"
             type="number"

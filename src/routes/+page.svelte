@@ -9,6 +9,10 @@
   import { Timer, Palette } from "@lucide/svelte";
 </script>
 
+<svelte:head>
+  <title>Thai</title>
+</svelte:head>
+
 <div class="grid gap-6 max-w-md mx-auto">
   <Card
     class="bg-gray-900 border-gray-700 hover:border-yellow-400 transition-colors cursor-pointer"
